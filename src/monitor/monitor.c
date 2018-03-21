@@ -1,29 +1,29 @@
 #include "nemu.h"
-#include <unistd.h>
+// #include <unistd.h>
 
 #define ENTRY_START 0x100000
 
-void init_difftest();
-void init_regex();
-void init_wp_pool();
-void init_device();
+// void init_difftest();
+// void init_regex();
+// void init_wp_pool();
+// void init_device();
 
 void reg_test();
-void init_qemu_reg();
-bool gdb_memcpy_to_qemu(uint32_t, void *, int);
+// void init_qemu_reg();
+// bool gdb_memcpy_to_qemu(uint32_t, void *, int);
 
-FILE *log_fp = NULL;
-static char *log_file = NULL;
-static char *img_file = NULL;
+// FILE *log_fp = NULL;
+// static char *log_file = NULL;
+// static char *img_file = NULL;
 static int is_batch_mode = false;
 
-static inline void init_log() {
-#ifdef DEBUG
-  if (log_file == NULL) return;
-  log_fp = fopen(log_file, "w");
-  Assert(log_fp, "Can not open '%s'", log_file);
-#endif
-}
+// static inline void init_log() {
+// #ifdef DEBUG
+//   if (log_file == NULL) return;
+//   log_fp = fopen(log_file, "w");
+//   Assert(log_fp, "Can not open '%s'", log_file);
+// #endif
+// }
 
 static inline void welcome() {
   printf("Welcome to NEMU!\n");
@@ -70,33 +70,33 @@ static inline int load_default_img() {
   return sizeof(img);
 }
 
-static inline void load_img() {
-  long size;
-  if (img_file == NULL) {
-    size = load_default_img();
-  }
-  else {
-    int ret;
-
-    FILE *fp = fopen(img_file, "rb");
-    Assert(fp, "Can not open '%s'", img_file);
-
-    Log("The image is %s", img_file);
-
-    fseek(fp, 0, SEEK_END);
-    size = ftell(fp);
-
-    fseek(fp, 0, SEEK_SET);
-    ret = fread(guest_to_host(ENTRY_START), size, 1, fp);
-    assert(ret == 1);
-
-    fclose(fp);
-  }
-
-#ifdef DIFF_TEST
-  gdb_memcpy_to_qemu(ENTRY_START, guest_to_host(ENTRY_START), size);
-#endif
-}
+// static inline void load_img() {
+//   long size;
+//   if (img_file == NULL) {
+//     size = load_default_img();
+//   }
+//   else {
+//     int ret;
+// 
+//     FILE *fp = fopen(img_file, "rb");
+//     Assert(fp, "Can not open '%s'", img_file);
+// 
+//     Log("The image is %s", img_file);
+// 
+//     fseek(fp, 0, SEEK_END);
+//     size = ftell(fp);
+// 
+//     fseek(fp, 0, SEEK_SET);
+//     ret = fread(guest_to_host(ENTRY_START), size, 1, fp);
+//     assert(ret == 1);
+// 
+//     fclose(fp);
+//   }
+// 
+// #ifdef DIFF_TEST
+//   gdb_memcpy_to_qemu(ENTRY_START, guest_to_host(ENTRY_START), size);
+// #endif
+// }
 
 static inline void restart() {
   /* Set the initial instruction pointer. */
@@ -107,30 +107,31 @@ static inline void restart() {
 #endif
 }
 
-static inline void parse_args(int argc, char *argv[]) {
-  int o;
-  while ( (o = getopt(argc, argv, "-bl:")) != -1) {
-    switch (o) {
-      case 'b': is_batch_mode = true; break;
-      case 'l': log_file = optarg; break;
-      case 1:
-                if (img_file != NULL) Log("too much argument '%s', ignored", optarg);
-                else img_file = optarg;
-                break;
-      default:
-                panic("Usage: %s [-b] [-l log_file] [img_file]", argv[0]);
-    }
-  }
-}
+// static inline void parse_args(int argc, char *argv[]) {
+//   int o;
+//   while ( (o = getopt(argc, argv, "-bl:")) != -1) {
+//     switch (o) {
+//       case 'b': is_batch_mode = true; break;
+//       case 'l': log_file = optarg; break;
+//       case 1:
+//                 if (img_file != NULL) Log("too much argument '%s', ignored", optarg);
+//                 else img_file = optarg;
+//                 break;
+//       default:
+//                 panic("Usage: %s [-b] [-l log_file] [img_file]", argv[0]);
+//     }
+//   }
+// }
 
 int init_monitor(int argc, char *argv[]) {
   /* Perform some global initialization. */
 
+
   /* Parse arguments. */
-  parse_args(argc, argv);
+  // parse_args(argc, argv);
 
   /* Open the log file. */
-  init_log();
+  // init_log();
 
   /* Test the implementation of the `CPU_state' structure. */
   reg_test();
@@ -141,19 +142,20 @@ int init_monitor(int argc, char *argv[]) {
 #endif
 
   /* Load the image to memory. */
-  load_img();
+  // load_img();
+  load_default_img();
 
   /* Initialize this virtual computer system. */
   restart();
 
   /* Compile the regular expressions. */
-  init_regex();
+  // init_regex();
 
   /* Initialize the watchpoint pool. */
-  init_wp_pool();
+  // init_wp_pool();
 
   /* Initialize devices. */
-  init_device();
+  // init_device();
 
   /* Display welcome message. */
   welcome();

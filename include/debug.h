@@ -2,8 +2,9 @@
 #define __DEBUG_H__
 
 #include "common.h"
-#include <stdio.h>
-#include <assert.h>
+// #include <stdio.h>
+// #include <assert.h>
+#include <klib.h>
 
 #ifdef DEBUG
 extern FILE* log_fp;
@@ -11,7 +12,6 @@ extern FILE* log_fp;
   do { \
     if (log_fp != NULL) { \
       fprintf(log_fp, format, ## __VA_ARGS__); \
-      fflush(log_fp); \
     } \
   } while (0)
 #else
@@ -21,7 +21,6 @@ extern FILE* log_fp;
 #define printflog(format, ...) \
   do { \
     printf(format, ## __VA_ARGS__); \
-    fflush(stdout); \
     Log_write(format, ## __VA_ARGS__); \
   } while (0)
 
@@ -32,10 +31,9 @@ extern FILE* log_fp;
 #define Assert(cond, ...) \
   do { \
     if (!(cond)) { \
-      fflush(stdout); \
-      fprintf(stderr, "\33[1;31m"); \
-      fprintf(stderr, __VA_ARGS__); \
-      fprintf(stderr, "\33[0m\n"); \
+      printf("\33[1;31m"); \
+      printf(__VA_ARGS__); \
+      printf("\33[0m\n"); \
       assert(cond); \
     } \
   } while (0)

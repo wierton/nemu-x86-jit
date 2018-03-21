@@ -172,12 +172,12 @@ make_EHelper(div) {
       rtl_sr_w(R_AX, &t2);
       rtl_sr_w(R_DX, &t3);
       break;
-    case 4:
-      rtl_lr_l(&t0, R_EAX);
-      rtl_lr_l(&t1, R_EDX);
-      rtl_div64_q(&cpu.eax, &t1, &t0, &id_dest->val);
-      rtl_div64_r(&cpu.edx, &t1, &t0, &id_dest->val);
-      break;
+//    case 4:
+//      rtl_lr_l(&t0, R_EAX);
+//      rtl_lr_l(&t1, R_EDX);
+//      rtl_div64_q(&cpu.eax, &t1, &t0, &id_dest->val);
+//      rtl_div64_r(&cpu.edx, &t1, &t0, &id_dest->val);
+//      break;
     default: assert(0);
   }
 
@@ -203,12 +203,12 @@ make_EHelper(idiv) {
       rtl_sr_w(R_AX, &t2);
       rtl_sr_w(R_DX, &t3);
       break;
-    case 4:
-      rtl_lr_l(&t0, R_EAX);
-      rtl_lr_l(&t1, R_EDX);
-      rtl_idiv64_q(&cpu.eax, &t1, &t0, &id_dest->val);
-      rtl_idiv64_r(&cpu.edx, &t1, &t0, &id_dest->val);
-      break;
+//    case 4:
+//      rtl_lr_l(&t0, R_EAX);
+//      rtl_lr_l(&t1, R_EDX);
+//      rtl_idiv64_q(&cpu.eax, &t1, &t0, &id_dest->val);
+//      rtl_idiv64_r(&cpu.edx, &t1, &t0, &id_dest->val);
+//      break;
     default: assert(0);
   }
 
