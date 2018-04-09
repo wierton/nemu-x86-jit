@@ -1,4 +1,5 @@
 #include "nemu.h"
+#include "image.h"
 // #include <unistd.h>
 
 #define ENTRY_START 0x100000
@@ -6,7 +7,7 @@
 // void init_difftest();
 // void init_regex();
 // void init_wp_pool();
-// void init_device();
+void init_device();
 
 void reg_test();
 // void init_qemu_reg();
@@ -15,7 +16,7 @@ void reg_test();
 // FILE *log_fp = NULL;
 // static char *log_file = NULL;
 // static char *img_file = NULL;
-static int is_batch_mode = false;
+// static int is_batch_mode = false;
 
 // static inline void init_log() {
 // #ifdef DEBUG
@@ -51,18 +52,6 @@ static inline void welcome() {
 }
 
 static inline int load_default_img() {
-  const uint8_t img []  = {
-    0xb8, 0x34, 0x12, 0x00, 0x00,        // 100000:  movl  $0x1234,%eax
-    0xb9, 0x27, 0x00, 0x10, 0x00,        // 100005:  movl  $0x100027,%ecx
-    0x89, 0x01,                          // 10000a:  movl  %eax,(%ecx)
-    0x66, 0xc7, 0x41, 0x04, 0x01, 0x00,  // 10000c:  movw  $0x1,0x4(%ecx)
-    0xbb, 0x02, 0x00, 0x00, 0x00,        // 100012:  movl  $0x2,%ebx
-    0x66, 0xc7, 0x84, 0x99, 0x00, 0xe0,  // 100017:  movw  $0x1,-0x2000(%ecx,%ebx,4)
-    0xff, 0xff, 0x01, 0x00,
-    0xb8, 0x00, 0x00, 0x00, 0x00,        // 100021:  movl  $0x0,%eax
-    0xd6,                                // 100026:  nemu_trap
-  };
-
   Log("No image is given. Use the default build-in image.");
 
   memcpy(guest_to_host(ENTRY_START), img, sizeof(img));
@@ -145,7 +134,7 @@ int init_monitor(int argc, char *argv[]) {
 #endif
 
   /* Load the image to memory. */
-  // load_img();
+  // load_image();
   load_default_img();
 
   /* Initialize this virtual computer system. */
@@ -158,10 +147,10 @@ int init_monitor(int argc, char *argv[]) {
   // init_wp_pool();
 
   /* Initialize devices. */
-  // init_device();
+  init_device();
 
   /* Display welcome message. */
   welcome();
 
-  return is_batch_mode;
+  return true;
 }
