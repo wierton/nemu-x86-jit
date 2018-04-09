@@ -42,7 +42,10 @@ static inline make_DopHelper(SI) {
    *
    op->simm = ???
    */
-  TODO();
+
+  op->simm = instr_fetch(eip, op->width);
+  if (op->width == 1)
+	  op->simm = (op->simm << 24) >> 24;
 
   rtl_li(&op->val, op->simm);
 
@@ -149,6 +152,12 @@ make_DHelper(I2a) {
  * use for imul */
 make_DHelper(I_E2G) {
   decode_op_rm(eip, id_src2, true, id_dest, false);
+  decode_op_I(eip, id_src, true);
+}
+
+make_DHelper(Ib_E2G) {
+  decode_op_rm(eip, id_src2, true, id_dest, false);
+  id_src->width = 1;
   decode_op_I(eip, id_src, true);
 }
 
