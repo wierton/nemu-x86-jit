@@ -16,7 +16,7 @@
 // static int update_screen_flag = false;
 
 void init_serial();
-// void init_timer();
+void init_timer();
 // void init_vga();
 // void init_i8042();
 // 
@@ -82,6 +82,7 @@ void init_device() {
 	_ioe_init();
 
 	init_serial();
+	init_timer();
 }
 #else
 
