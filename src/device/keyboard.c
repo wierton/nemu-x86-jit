@@ -2,10 +2,13 @@
 #include "monitor/monitor.h"
 // #include <SDL2/SDL.h>
 
+#include <klib.h>
+
 #define I8042_DATA_PORT 0x60
 #define KEYBOARD_IRQ 1
+#define _KEY_NONE 0
 
-// static uint32_t *i8042_data_port_base;
+static uint32_t *i8042_data_port_base;
 
 /*
 #define _KEYS(_) \
@@ -34,27 +37,22 @@ static int key_queue[KEY_QUEUE_LEN];
 static int key_f = 0, key_r = 0;
 
 #define KEYDOWN_MASK 0x8000
+*/
 
-void send_key(uint8_t scancode, bool is_keydown) {
-  if (nemu_state == NEMU_RUNNING &&
-      keymap[scancode] != _KEY_NONE) {
-    uint32_t am_scancode = keymap[scancode] | (is_keydown ? KEYDOWN_MASK : 0);
-    key_queue[key_r] = am_scancode;
-    key_r = (key_r + 1) % KEY_QUEUE_LEN;
-    Assert(key_r != key_f, "key queue overflow!");
-  }
-}
+// void send_key(uint8_t scancode, bool is_keydown) {
+//   if (nemu_state == NEMU_RUNNING &&
+//       keymap[scancode] != _KEY_NONE) {
+//     uint32_t am_scancode = keymap[scancode] | (is_keydown ? KEYDOWN_MASK : 0);
+//     key_queue[key_r] = am_scancode;
+//     key_r = (key_r + 1) % KEY_QUEUE_LEN;
+//     Assert(key_r != key_f, "key queue overflow!");
+//   }
+// }
 
 static void i8042_data_io_handler(ioaddr_t addr, int len, bool is_write) {
   assert(!is_write);
   assert(addr == I8042_DATA_PORT);
-  if (key_f != key_r) {
-    i8042_data_port_base[0] = key_queue[key_f];
-    key_f = (key_f + 1) % KEY_QUEUE_LEN;
-  }
-  else {
-    i8042_data_port_base[0] = _KEY_NONE;
-  }
+  i8042_data_port_base[0] = read_key();
 }
 
 void init_i8042() {
@@ -62,4 +60,3 @@ void init_i8042() {
   i8042_data_port_base[0] = _KEY_NONE;
 }
 
-*/
