@@ -17,7 +17,7 @@
 
 void init_serial();
 void init_timer();
-// void init_vga();
+void init_vga();
 void init_i8042();
  
 // extern void timer_intr();
@@ -84,6 +84,7 @@ void init_device() {
 	init_serial();
 	init_timer();
 	init_i8042();
+	init_vga();
 }
 #else
 

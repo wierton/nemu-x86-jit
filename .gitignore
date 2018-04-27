@@ -5,4 +5,4 @@
 !*.[cSh]
 !.gitignore
 !README.md
-!runall.sh
+!*.sh
