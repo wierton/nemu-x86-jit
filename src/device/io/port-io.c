@@ -49,6 +49,7 @@ uint32_t pio_read(ioaddr_t addr, int len) {
     case 1: return *(uint8_t *)(pio_space + addr);
     default: assert(0);
   }
+  return 0;
 }
 
 void pio_write(ioaddr_t addr, uint32_t data, int len) {
