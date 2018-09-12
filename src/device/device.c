@@ -1,5 +1,4 @@
 #include "common.h"
-#include <am.h>
 
 #ifdef HAS_IOE
 
@@ -79,8 +78,6 @@ void init_i8042();
 // }
 // 
 void init_device() {
-	_ioe_init();
-
 	init_serial();
 	init_timer();
 	init_i8042();

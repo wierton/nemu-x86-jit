@@ -18,7 +18,8 @@ typedef struct {
     uint32_t imm;
     int32_t simm;
   };
-  rtlreg_t val;
+  rtlreg_t *val;
+  rtlreg_t data;
   char str[OP_STR_SIZE];
 } Operand;
 
@@ -29,6 +30,7 @@ typedef struct {
   uint8_t ext_opcode;
   bool is_jmp;
   vaddr_t jmp_eip;
+  bool is_control;
   Operand src, dest, src2;
 #ifdef DEBUG
   char assembly[80];

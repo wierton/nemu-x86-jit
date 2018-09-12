@@ -2,7 +2,6 @@
 #include "monitor/monitor.h"
 // #include <SDL2/SDL.h>
 
-#include <klib.h>
 
 #define I8042_DATA_PORT 0x60
 #define KEYBOARD_IRQ 1
@@ -50,9 +49,9 @@ static int key_f = 0, key_r = 0;
 // }
 
 static void i8042_data_io_handler(ioaddr_t addr, int len, bool is_write) {
-  assert(!is_write);
-  assert(addr == I8042_DATA_PORT);
-  i8042_data_port_base[0] = read_key();
+//  assert(!is_write);
+//  assert(addr == I8042_DATA_PORT);
+//  i8042_data_port_base[0] = read_key();
 }
 
 void init_i8042() {

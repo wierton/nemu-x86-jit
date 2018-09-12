@@ -2,9 +2,8 @@
 #define __DEBUG_H__
 
 #include "common.h"
-// #include <stdio.h>
-// #include <assert.h>
-#include <klib.h>
+#include <stdio.h>
+#include <assert.h>
 
 #ifdef DEBUG
 extern FILE* log_fp;

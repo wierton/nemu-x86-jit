@@ -1,7 +1,6 @@
 #include "device/port-io.h"
 #include "monitor/monitor.h"
 // #include <sys/time.h>
-#include <klib.h>
 
 #define RTC_PORT 0x48   // Note that this is not the standard
 
@@ -15,10 +14,10 @@ void timer_intr() {
 static uint32_t *rtc_port_base;
 
 void rtc_io_handler(ioaddr_t addr, int len, bool is_write) {
-  if (!is_write) {
-    rtc_port_base[0] = uptime();
-
-  }
+//  if (!is_write) {
+//    rtc_port_base[0] = uptime();
+//
+//  }
 }
 
 void init_timer() {

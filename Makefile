@@ -1,6 +1,5 @@
-NAME = nemu
+NAME = x86-nemu
 SRCS = $(shell find src/ -name "*.c")
-CFLGAS = -D DEBUG
-LIBS += klib compiler-rt
-include $(AM_HOME)/Makefile.app
+LIBS += compiler-rt
 
+include $(NAVY_HOME)/Makefile.app

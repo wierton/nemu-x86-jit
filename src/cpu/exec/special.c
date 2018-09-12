@@ -45,6 +45,5 @@ make_EHelper(nemu_trap) {
   rtl_exit(NEMU_END);
 
   print_asm("nemu trap");
-  _halt(0);
   return;
 }

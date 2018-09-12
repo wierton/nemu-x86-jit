@@ -1,4 +1,3 @@
-#include "cpu/exec.h"
 #include "all-instr.h"
 
 typedef struct {
@@ -224,14 +223,18 @@ make_EHelper(real) {
 }
 
 static inline void update_eip(void) {
-  if (decoding.is_jmp) { 
-	  decoding.is_jmp = 0; 
-  }
-  else { cpu.eip = decoding.seq_eip; }
+//  if (decoding.is_jmp) { 
+//	  decoding.is_jmp = 0; 
+//  }
+//  else { cpu.eip = decoding.seq_eip; }
+  cpu.eip = decoding.seq_eip;
+  // if control jumps to a different place, eip will be updated later
+  // when executing (interpreting) RTLs.
 }
 
-void exec_wrapper(bool print_flag) {
-#if defined(DEBUG) || defined(DIFF_TEST)
+/* translate one instruction, return true if it is a control transfer instr */
+bool exec_wrapper(bool print_flag) {
+#if defined(DEBUG)
   vaddr_t ori_eip = cpu.eip;
 #endif
 
@@ -241,6 +244,10 @@ void exec_wrapper(bool print_flag) {
 #endif
 
   decoding.seq_eip = cpu.eip;
+  decoding.is_control = false;
+  id_src->val = &id_src->data;
+  id_src2->val = &id_src2->data;
+  id_dest->val = &id_dest->data;
   exec_real(&decoding.seq_eip);
 
 #ifdef DEBUG
@@ -255,8 +262,10 @@ void exec_wrapper(bool print_flag) {
 
   update_eip();
 
-#ifdef DIFF_TEST
-  void difftest_step(uint32_t);
-  difftest_step(ori_eip);
-#endif
+// #ifdef DIFF_TEST
+//   void difftest_step(uint32_t, int);
+//   difftest_step(ori_eip);
+// #endif
+
+  return decoding.is_control;
 }

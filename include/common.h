@@ -8,9 +8,8 @@
 #define HAS_IOE
 
 #include <stdint.h>
-// #include <assert.h>
-// #include <string.h>
-#include <klib.h>
+#include <assert.h>
+#include <string.h>
 
 typedef uint8_t bool;
 
