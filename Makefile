@@ -1,4 +1,4 @@
-NAME = x86-nemu
+NAME = nemu
 SRCS = $(shell find src/ -name "*.c")
 LIBS += compiler-rt
 
