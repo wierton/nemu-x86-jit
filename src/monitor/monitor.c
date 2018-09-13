@@ -48,7 +48,7 @@ static inline void welcome() {
   Log("Differential testing: \33[1;32m%s\33[0m", "OFF");
 #endif
 
-  printf("For help, type \"help\"\n");
+  // printf("For help, type \"help\"\n");
 }
 
 static inline int load_default_img() {
