@@ -3,12 +3,8 @@
 NEMU(NJU Emulator) is a simple but complete full-system x86 emulator designed for teaching purpose.
 Small x86 programs can run under NEMU.
 
-This branch runs on AM (tested on AM native). The guest program is typing game, which is hard coded in
-`src/monitor/image.h`. Use the following command to compile and run
-```
-make ARCH=native run
-```
-
+This branch runs on navy. The guest program is hard coded in
+`src/monitor/image.h`.
 
 If you want to change the guest program, before compile NEMU, first compile the guest program using AM(ARCH=x86-nemu), 
 then run the following command
