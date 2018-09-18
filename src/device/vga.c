@@ -22,14 +22,14 @@ void vga_io_handler(paddr_t addr, int len, bool is_write) {
 	uint32_t *pixels = &vmem[y][x];
 	// NDL_DrawRect(pixels, x, y, w, h);
 	NDL_DrawRect(pixels, x, y, 1, 1);
-	NDL_Render();
+//	NDL_Render();
 
-//	static int counter = 0;
-//	counter ++;
-//	if(counter > 100) { // delayed sync
-//		counter = 0;
-//		NDL_Render();
-//	}
+	static int counter = 0;
+	counter ++;
+	if(counter > 1000000000) { // delayed sync
+		counter = 0;
+		NDL_Render();
+	}
 }
 
 void init_vga() {
