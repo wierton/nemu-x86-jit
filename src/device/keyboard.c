@@ -1,6 +1,7 @@
 #include "device/port-io.h"
 #include "monitor/monitor.h"
 // #include <SDL2/SDL.h>
+#include <ndl.h>
 
 
 #define I8042_DATA_PORT 0x60
@@ -48,10 +49,24 @@ static int key_f = 0, key_r = 0;
 //   }
 // }
 
+#define KEYDOWN_MASK 0x8000
+
 static void i8042_data_io_handler(ioaddr_t addr, int len, bool is_write) {
-//  assert(!is_write);
-//  assert(addr == I8042_DATA_PORT);
-//  i8042_data_port_base[0] = read_key();
+  assert(!is_write);
+  assert(addr == I8042_DATA_PORT);
+  // i8042_data_port_base[0] = read_key();
+  NDL_Event e;
+  NDL_WaitEvent(&e);
+
+  if (e.type == NDL_EVENT_KEYDOWN) {
+    i8042_data_port_base[0] = e.data | KEYDOWN_MASK;
+  }
+  else if (e.type == NDL_EVENT_KEYUP) {
+    i8042_data_port_base[0] = e.data;
+  }
+  else {
+	i8042_data_port_base[0] = _KEY_NONE;
+  }
 }
 
 void init_i8042() {
