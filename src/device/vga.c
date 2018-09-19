@@ -24,12 +24,15 @@ void vga_io_handler(paddr_t addr, int len, bool is_write) {
 	NDL_DrawRect(pixels, x, y, 1, 1);
 //	NDL_Render();
 
-	static int counter = 0;
-	counter ++;
-	if(counter > 1000000000) { // delayed sync
-		counter = 0;
-		NDL_Render();
-	}
+//	static int last_time = 0;
+//	NDL_Event e;
+//	NDL_WaitEvent(&e);
+//	if (e.type == NDL_EVENT_TIMER) {
+//		if (e.data > last_time + 1000) {
+//			last_time = e.data;
+//			NDL_Render();
+//		}
+//	}
 }
 
 void init_vga() {
