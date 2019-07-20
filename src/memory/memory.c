@@ -1,7 +1,7 @@
 #include "nemu.h"
 #include "device/mmio.h"
 
-#define PMEM_SIZE (16 * 1024 * 1024)
+#define PMEM_SIZE (2 * 1024 * 1024)
 
 uint8_t pmem[PMEM_SIZE];
 

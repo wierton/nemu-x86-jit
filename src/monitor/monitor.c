@@ -15,7 +15,7 @@ void reg_test();
 
 // FILE *log_fp = NULL;
 // static char *log_file = NULL;
-// static char *img_file = NULL;
+static char *img_file = NULL;
 // static int is_batch_mode = false;
 
 // static inline void init_log() {
@@ -59,33 +59,32 @@ static inline int load_default_img() {
   return sizeof(img);
 }
 
-// static inline void load_img() {
-//   long size;
-//   if (img_file == NULL) {
-//     size = load_default_img();
-//   }
-//   else {
-//     int ret;
-// 
-//     FILE *fp = fopen(img_file, "rb");
-//     Assert(fp, "Can not open '%s'", img_file);
-// 
-//     Log("The image is %s", img_file);
-// 
-//     fseek(fp, 0, SEEK_END);
-//     size = ftell(fp);
-// 
-//     fseek(fp, 0, SEEK_SET);
-//     ret = fread(guest_to_host(ENTRY_START), size, 1, fp);
-//     assert(ret == 1);
-// 
-//     fclose(fp);
-//   }
-// 
-// #ifdef DIFF_TEST
-//   gdb_memcpy_to_qemu(ENTRY_START, guest_to_host(ENTRY_START), size);
-// #endif
-// }
+static inline void load_image() {
+  long size;
+  if (img_file == NULL) {
+    size = load_default_img();
+  } else {
+    int ret;
+
+    FILE *fp = fopen(img_file, "rb");
+    Assert(fp, "Can not open '%s'", img_file);
+
+    Log("The image is %s", img_file);
+
+    fseek(fp, 0, SEEK_END);
+    size = ftell(fp);
+
+    fseek(fp, 0, SEEK_SET);
+    ret = fread(guest_to_host(ENTRY_START), size, 1, fp);
+    assert(ret == 1);
+
+    fclose(fp);
+  }
+
+#ifdef DIFF_TEST
+  gdb_memcpy_to_qemu(ENTRY_START, guest_to_host(ENTRY_START), size);
+#endif
+}
 
 static inline void restart() {
   /* Set the initial instruction pointer. */
@@ -117,7 +116,11 @@ static inline void restart() {
 
 int init_monitor(int argc, char *argv[]) {
   /* Perform some global initialization. */
-
+  if(argc > 0) {
+	img_file = argv[1];
+  } else {
+	img_file = NULL;
+  }
 
   /* Parse arguments. */
   // parse_args(argc, argv);
@@ -134,8 +137,7 @@ int init_monitor(int argc, char *argv[]) {
 #endif
 
   /* Load the image to memory. */
-  // load_image();
-  load_default_img();
+  load_image();
 
   /* Initialize this virtual computer system. */
   restart();
